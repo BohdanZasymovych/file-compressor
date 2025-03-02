@@ -17,11 +17,11 @@ Flags to show content of output_file
 
 # Tests
 ### Compressing text_file_test.txt
-20.53kb -> 10.07kb
+20.53kb -> 10.07kb\
 Size of a file decreased by 10.46kb
 
 ### Compressing image_test.png
-4.72kb -> 0.91kb
+4.72kb -> 0.91kb\
 Size of a file decreased by 3.81kb
 
 
