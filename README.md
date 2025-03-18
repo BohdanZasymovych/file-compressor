@@ -29,4 +29,4 @@ Size of a file decreased by 3.81kb or about 80.7 percents
 # Comparison
 I have compared my algorithm with compression algorithm from python's zlib module
 ### Results on txt file
-![alt text](image.png)
+![alt text](https://raw.githubusercontent.com/BohdanZasymovych/file-compressor/refs/heads/main/tests/image_comparison.png)
