@@ -8,8 +8,6 @@ from typing import Optional, Any
 
 
 BLOCK_SIZES = {
-    # Text and similar files:
-    # High redundancy; larger blocks (32 KB) help capture long-range patterns.
     ".txt": 32768,
     ".html": 32768,
     ".htm": 32768,
@@ -20,22 +18,16 @@ BLOCK_SIZES = {
     ".css": 32768,
     ".js": 32768,
 
-    # Uncompressed images and raw data:
-    # Moderate redundancy; slightly smaller blocks (16 KB) adapt better to varying detail.
     ".bmp": 16384,
     ".tif": 16384,
     ".tiff": 16384,
     ".raw": 16384,
 
-    # Executables and structured binary data:
-    # Typically less redundant; moderate block size (16 KB) minimizes overhead.
     ".exe": 16384,
     ".dll": 16384,
     ".bin": 16384,
     ".dat": 16384,
 
-    # Already compressed files (images, audio, video, archives):
-    # Little additional compression is possible; smaller blocks (4 KB) minimize wasted processing.
     ".jpg": 4096,
     ".jpeg": 4096,
     ".png": 4096,
@@ -225,17 +217,23 @@ class HuffMan:
         return heap
 
     def build_tree(self, heap: list):
-        """build hiffman tree using heap of min heap of nodes"""
-        while len(heap) > 1:
-            right_node = heapq.heappop(heap)
-            left_node = heapq.heappop(heap)
-            heapq.heappush(heap, HuffmanNode(freq=left_node.freq+right_node.freq,
-                                            left=left_node,
-                                            right=right_node))
-        return heap[0]
+        """build huffman tree using heap of min heap of nodes"""
+        # print(heap)
+        # print('\n\n\n\n')
+        if heap:
+            while len(heap) >= 2:
+                right_node = heapq.heappop(heap)
+                left_node = heapq.heappop(heap)
+                heapq.heappush(heap, HuffmanNode(freq=left_node.freq+right_node.freq,
+                                                left=left_node,
+                                                right=right_node))
+            return heap[0]
+        return None
 
     def tree_to_code_legth(self, root: 'HuffmanNode', cur_lengh: int=1, code_lengths: int=None) -> dict:
         """get code lengths of each symbol from huffman tree"""
+        if root is None:
+            return {}
         if code_lengths is None:
             code_lengths = {}
         if root.left is None and root.right is None:
@@ -459,6 +457,7 @@ def read_file_bits(filepath):
         data = f.read()
         bits = ''.join(format(byte, '08b') for byte in data)
         print(bits)
+
 
 def deflate_compress(input_file_path: str, output_file_path: str) -> None:
     hf = HuffMan()
